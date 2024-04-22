@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spzx.manager.mapper.SysRoleMenuMapper">
+    <!--新增角色菜单-->
+    <insert id="doAssign">
+        insert into sys_role_menu (
+        role_id,
+        menu_id,
+        create_time , update_time , is_deleted , is_half
+        ) values
+        <foreach collection="menuIdList" item="menuInfo" separator=",">
+            (#{roleId} , #{menuInfo.id} , now() , now() , 0 , #{menuInfo.isHalf})
+        </foreach>
+    </insert>
+    <!--删除角色原有菜单-->
+    <delete id="deleteMenu">
+        DELETE FROM sys_role_menu
+        WHERE role_id = #{roelId}
+    </delete>
+    <!--查询角色已经拥有的菜单管理-->
+    <select id="findSysRoleMenuByRoleId" resultType="java.lang.Long">
+        SELECT menu_id FROM sys_role_menu
+        WHERE role_id = #{roleId} AND is_deleted=0 AND is_half=0
+    </select>
+
+    <sql id="columns">
+        id,parent_id,title,component,sort_value,status,create_time,update_time,is_deleted
+    </sql>
+    <resultMap id="sysMenuMap" type="com.spzx.model.entity.system.SysMenu" autoMapping="true"/>
+
+    <!--查询角色已经拥有的菜单管理，返回值为SysMenu的list集合-->
+    <select id="getMenuByRoleId" resultMap="sysMenuMap">
+        SELECT DISTINCT <include refid="columns"/>
+        FROM sys_menu
+        WHERE id IN
+        (SELECT menu_id FROM sys_role_menu
+        WHERE role_id IN
+            <foreach collection="userRoleIds" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+            AND is_deleted = 0)
+        AND is_deleted = 0
+    </select>
+
+
+</mapper>

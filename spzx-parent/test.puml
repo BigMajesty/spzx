@@ -1,0 +1,1417 @@
+@startuml
+class com.spzx.model.entity.order.OrderLog {
+- {static} long serialVersionUID
+- Long orderId
+- String operateUser
+- Integer processStatus
+- String note
+}
+
+class com.spzx.model.entity.order.OrderItem {
+- {static} long serialVersionUID
+- Long orderId
+- Long skuId
+- String skuName
+- String thumbImg
+- BigDecimal skuPrice
+- Integer skuNum
+}
+
+interface com.spzx.manager.mapper.BrandMapper {
+~ List<Brand> findBrandPage()
+~ void save(Brand)
+~ void updateById(Brand)
+~ void deleteById(Long)
+~ List<Brand> findAll()
+}
+
+class com.spzx.model.dto.h5.ProductSkuDto {
+- String keyword
+- Long brandId
+- Long category1Id
+- Long category2Id
+- Long category3Id
+- Integer order
+}
+
+class com.spzx.model.vo.h5.UserInfoVo {
+- String nickName
+- String avatar
+}
+
+class com.spzx.manager.service.impl.FileUploadServiceImpl {
+~ MinioProperties minioProperties
++ String upload(MultipartFile)
+}
+
+
+class com.spzx.model.entity.pay.PaymentInfo {
+- {static} long serialVersionUID
+- Long userId
+- String orderNo
+- Integer payType
+- String outTradeNo
+- BigDecimal amount
+- String content
+- Integer paymentStatus
+- Date callbackTime
+- String callbackContent
+}
+
+interface com.spzx.service.cart.service.CartService {
+~ void addToCart(Long,Integer)
+~ List<CartInfo> getCartList()
+~ void deleteCart(Long)
+~ void checkCart(Long,Integer)
+~ void allCheckCart(Integer)
+~ void clearCart()
+~ List<CartInfo> getAllChecked()
+~ void deleteChecked()
+}
+
+interface com.spzx.manager.service.OrderInfoService {
+~ OrderStatisticsVo getOrderStatisticsData(OrderStatisticsDto)
+}
+
+interface com.spzx.manager.mapper.OrderInfoMapper {
+~ OrderStatistics selectOrderStatistics(String)
+}
+
+interface com.spzx.service.order.mapper.OrderInfoMapper {
+~ void save(OrderInfo)
+~ OrderInfo getById(Long)
+~ List<OrderInfo> findUserPage(Long,Integer)
+~ OrderInfo getOrderInfoByOrderNo(String)
+}
+
+class com.spzx.model.dto.system.SysOperLogDto {
+- String title
+- String operName
+- String createTimeBegin
+- String createTimeEnd
+}
+
+interface com.spzx.service.pay.service.AlipayService {
+~ String submitAlipay(String)
+}
+
+class com.spzx.manager.controller.SysMenuController {
+~ SysMenuService sysMenuService
++ Result<List<SysMenu>> findNodes()
++ Result save(SysMenu)
++ Result updateById(SysMenu)
++ Result removeById(Long)
+}
+
+
+interface com.spzx.manager.mapper.CategoryMapper {
+~ List<Category> findCategoryList(Long)
+~ int countByParentId(Long)
+~ List<Category> selectAll()
+~ void batchInsert(List<CategoryExcelVo>)
+}
+
+class com.spzx.manager.controller.ProductUnitController {
+- ProductUnitService productUnitService
++ Result findAll()
+}
+
+
+class com.spzx.manager.service.impl.SysUserServiceImpl {
+~ SysUserMapper sysUserMapper
+- RedisTemplate<String,String> redisTemplate
+~ SysUserRoleMapper sysUserRoleMapper
++ LoginVo login(LoginDto)
++ SysUser getUserInfo(String)
++ void logout(String)
++ PageInfo<SysUser> findByPage(Integer,Integer,SysUserDto)
++ void saveSysUser(SysUser)
++ void updateSysUser(SysUser)
++ void deleteById(Long)
++ void doAssign(AssginRoleDto)
+}
+
+
+interface com.spzx.manager.mapper.ProductDetailsMapper {
+~ void save(ProductDetails)
+~ ProductDetails findProductDetailsById(Long)
+~ void updateById(ProductDetails)
+~ void deleteByProductId(Long)
+}
+
+class com.spzx.model.entity.system.SysMenu {
+- Long parentId
+- String title
+- String component
+- Integer sortValue
+- Integer status
+- List<SysMenu> children
+}
+
+class com.spzx.model.entity.base.Region {
+- String code
+- Long parentCode
+- String name
+- Integer level
+}
+
+interface com.spzx.service.order.mapper.OrderLogMapper {
+~ void save(OrderLog)
+}
+
+enum com.spzx.common.log.enums.OperatorType {
++  OTHER
++  MANAGE
++  MOBILE
+}
+
+class com.spzx.model.entity.product.ProductDetails {
+- Long productId
+- String imageUrls
+}
+
+class com.spzx.manager.service.impl.SysRoleMenuServiceImpl {
+~ SysRoleMenuMapper sysRoleMenuMapper
+~ SysMenuService sysMenuService
++ Map<String,Object> findSysRoleMenuByRoleId(Long)
++ void doAssign(AssginMenuDto)
+}
+
+
+class com.spzx.utils.AuthContextUtil {
+- {static} ThreadLocal<SysUser> THREAD_LOCAL
+- {static} ThreadLocal<UserInfo> userInfoThreadLocal
++ {static} void set(SysUser)
++ {static} SysUser get()
++ {static} void remove()
++ {static} void setUserInfo(UserInfo)
++ {static} UserInfo getUserInfo()
++ {static} void removeUserInfo()
+}
+
+
+class com.spzx.common.log.aspect.AspectLog {
+~ AsyncOperLogService asyncOperLogService
++ Object doAroundAdvice(ProceedingJoinPoint,Log)
+}
+
+
+class com.spzx.model.vo.product.CategoryExcelVo {
+- Long id
+- String name
+- String imageUrl
+- Long parentId
+- Integer status
+- Integer orderNum
+}
+
+class com.spzx.model.vo.h5.ProductItemVo {
+- ProductSku productSku
+- Product product
+- List<String> sliderUrlList
+- List<String> detailsImageUrlList
+- JSONArray specValueList
+- Map<String,Object> skuSpecValueMap
+}
+
+class com.spzx.service.product.config.RedisConfig {
++ CacheManager cacheManager(LettuceConnectionFactory)
+}
+
+interface com.spzx.manager.mapper.ProductUnitMapper {
+~ List<ProductUnit> findAll()
+}
+
+class com.spzx.manager.service.impl.BrandServiceImpl {
+~ BrandMapper brandMapper
++ PageInfo<Brand> findBrandPage(Integer,Integer)
++ void save(Brand)
++ void updateById(Brand)
++ void deleteById(Long)
++ List<Brand> findAll()
+}
+
+
+class com.spzx.service.product.utils.BuildCategoryTreeUtil {
++ {static} List<Category> buildTree(List<Category>,Long)
+}
+
+class com.spzx.service.cart.service.impl.CartServiceImpl {
+~ ProductFeignClient productFeignClient
+~ RedisTemplate<String,String> redisTemplate
++ void addToCart(Long,Integer)
++ List<CartInfo> getCartList()
++ void deleteCart(Long)
++ void checkCart(Long,Integer)
++ void allCheckCart(Integer)
++ void clearCart()
++ List<CartInfo> getAllChecked()
++ void deleteChecked()
+}
+
+
+interface com.spzx.manager.mapper.SysRoleMenuMapper {
+~ List<Long> findSysRoleMenuByRoleId(Long)
+~ void deleteMenu(Long)
+~ void doAssign(AssginMenuDto)
+~ List<SysMenu> getMenuByRoleId(List<Long>)
+}
+
+class com.spzx.model.entity.product.CategoryBrand {
+- Long brandId
+- Long categoryId
+- String categoryName
+- String brandName
+- String logo
+}
+
+class com.spzx.model.entity.system.SysRole {
+- {static} long serialVersionUID
+- String roleName
+- String roleCode
+- String description
+}
+
+interface com.spzx.service.cart.mapper.CartMapper {
+}
+class com.spzx.model.dto.system.LoginDto {
+- String userName
+- String password
+- String captcha
+- String codeKey
+}
+
+class com.spzx.service.product.controller.BrandController {
+~ BrandService brandService
++ Result findAll()
+}
+
+
+class com.spzx.common.exception.GlobalExceptionHandler {
++ Result error(Exception)
++ Result error(GlobalException)
+}
+
+interface com.spzx.manager.service.CategoryBrandService {
+~ PageInfo<CategoryBrand> findByPage(Integer,Integer,CategoryBrandDto)
+~ void save(CategoryBrand)
+~ void updateById(CategoryBrand)
+~ void deleteById(Long)
+~ List<Brand> findBrandByCategoryId(Long)
+}
+
+class com.spzx.model.entity.product.ProductSku {
+- String skuCode
+- String skuName
+- Long productId
+- String thumbImg
+- BigDecimal salePrice
+- BigDecimal marketPrice
+- BigDecimal costPrice
+- Integer stockNum
+- Integer saleNum
+- String skuSpec
+- String weight
+- String volume
+- Integer status
+}
+
+class com.spzx.model.entity.base.BaseEntity {
+- Long id
+- Date createTime
+- Date updateTime
+- Integer isDeleted
+}
+
+class com.spzx.manager.interceptors.LoginAuthInterceptor {
+~ RedisTemplate<String,String> redisTemplate
++ boolean preHandle(HttpServletRequest,HttpServletResponse,Object)
++ void afterCompletion(HttpServletRequest,HttpServletResponse,Object,Exception)
+- void responseNoLoginInfo(HttpServletResponse)
+}
+
+
+interface com.spzx.service.pay.mapper.PaymentInfoMapper {
+~ PaymentInfo getPaymentInfo(String)
+~ void save(PaymentInfo)
+}
+
+interface com.spzx.service.user.mapper.UserInfoMapper {
++ void register(UserInfo)
+~ UserInfo selectUserInfoByUsername(String)
+}
+
+class com.spzx.manager.config.WebMvcConfiguration {
+~ LoginAuthInterceptor loginAuthInterceptor
+~ UserProperties userProperties
++ void addInterceptors(InterceptorRegistry)
++ void addCorsMappings(CorsRegistry)
+}
+
+
+class com.spzx.manager.service.impl.SysMenuServiceImpl {
+~ SysMenuMapper sysMenuMapper
+~ SysUserRoleMapper sysUserRoleMapper
+~ SysRoleMenuMapper sysRoleMenuMapper
++ List<SysMenu> findNodes()
++ void save(SysMenu)
++ void updateById(SysMenu)
++ void removeById(Long)
++ List<SysMenuVo> findUserMenuList()
+- List<SysMenuVo> buildMenus(List<SysMenu>)
+}
+
+
+class com.spzx.service.product.ProductApplication {
++ {static} void main(String[])
+}
+
+class com.spzx.service.pay.utils.AlipayProperties {
+- String alipayUrl
+- String appPrivateKey
++ String alipayPublicKey
+- String appId
++ String returnPaymentUrl
++ String notifyPaymentUrl
++ {static} String format
++ {static} String charset
++ {static} String sign_type
+}
+
+class com.spzx.manager.controller.BrandController {
+~ BrandService brandService
++ Result findBrandPage(Integer,Integer)
++ Result findAll()
++ Result save(Brand)
++ Result updateById(Brand)
++ Result deleteById(Long)
+}
+
+
+class com.spzx.service.user.UserApplication {
++ {static} void main(String[])
+}
+
+class com.spzx.model.dto.system.SysRoleDto {
+- String roleName
+}
+
+class com.spzx.model.dto.product.ProductDto {
+- Long brandId
+- Long category1Id
+- Long category2Id
+- Long category3Id
+}
+
+class com.spzx.model.vo.system.LoginVo {
+- String token
+- String refresh_token
+}
+
+class com.spzx.model.vo.order.OrderStatisticsVo {
+- List<String> dateList
+- List<BigDecimal> amountList
+}
+
+interface com.spzx.service.product.mapper.BrandMapper {
++ List<Brand> findAll()
+}
+
+class com.spzx.common.exception.GlobalException {
+- int code
+- String message
+- ResultCodeEnum resultCodeEnum
+}
+
+class com.spzx.service.order.controller.OrderInfoController {
+- OrderInfoService orderInfoService
++ Result trade()
++ Result<TradeVo> buy(Long)
++ Result<Long> submitOrder(OrderInfoDto)
++ Result<OrderInfo> getOrderInfo(Long)
++ Result<PageInfo<OrderInfo>> list(Integer,Integer,Integer)
++ Result<OrderInfo> getOrderInfoByOrderNo(String)
+}
+
+
+interface com.spzx.manager.service.ProductUnitService {
+~ List<ProductUnit> findAll()
+}
+
+class com.spzx.model.entity.system.SysUser {
+- String userName
+- String password
+- String name
+- String phone
+- String avatar
+- String description
+- Integer status
+}
+
+class com.spzx.manager.controller.OrderInfoController {
+~ OrderInfoService orderInfoService
++ Result getOrderStatisticsData(OrderStatisticsDto)
+}
+
+
+interface com.spzx.manager.service.CategoryService {
+~ List<Category> findCategoryList(Long)
+~ void exportData(HttpServletResponse)
+~ void importData(MultipartFile)
+}
+
+class com.spzx.model.entity.system.SysOperLog {
+- {static} long serialVersionUID
+- String title
+- String method
+- String requestMethod
+- Integer businessType
+- String operatorType
+- String operName
+- String operUrl
+- String operIp
+- String operParam
+- String jsonResult
+- Integer status
+- String errorMsg
+}
+
+enum com.spzx.model.vo.common.ResultCodeEnum {
++  SUCCESS
++  LOGIN_ERROR
++  VALIDATECODE_ERROR
++  LOGIN_AUTH
++  USER_NAME_IS_EXISTS
++  SYSTEM_ERROR
++  NODE_ERROR
++  DATA_ERROR
++  ACCOUNT_STOP
++  STOCK_LESS
+- Integer code
+- String message
+}
+
+class com.spzx.service.product.controller.IndexController {
+~ ProductService productService
+~ CategoryService categoryService
++ Result getData()
+}
+
+
+interface com.spzx.manager.service.ProductDetailsService {
+}
+class com.spzx.model.vo.common.Result {
+- Integer code
+- String message
+- T data
++ {static} Result<T> build(T,Integer,String)
++ {static} Result build(T,ResultCodeEnum)
+}
+
+
+class com.spzx.service.pay.PayApplication {
++ {static} void main(String[])
+}
+
+interface com.spzx.service.pay.service.PaymentInfoService {
++ PaymentInfo savePaymentInfo(String)
+}
+
+class com.spzx.manager.service.impl.AsyncOperLogServiceImpl {
+~ SysOperLogMapper sysOperLogMapper
++ void saveSysOperLog(SysOperLog)
+}
+
+
+interface com.spzx.manager.service.ProductService {
+~ PageInfo<Product> findByPage(Integer,Integer,ProductDto)
+~ void save(Product)
+~ Product getById(Long)
+~ void updateById(Product)
+~ void deleteById(Long)
+~ void updateAuditStatus(Long,Integer)
+~ void updateStatus(Long,Integer)
+}
+
+class com.spzx.model.entity.product.Brand {
+- String name
+- String logo
+}
+
+class com.spzx.manager.service.impl.ProductDetailsServiceImpl {
+}
+interface com.spzx.service.product.service.BrandService {
+~ List<Brand> findAll()
+}
+
+class com.spzx.service.pay.controller.AlipayController {
+- AlipayService alipayService
++ Result<String> submitAlipay(String)
+}
+
+
+class com.spzx.manager.service.impl.ProductSpecServiceImpl {
+~ ProductSpecMapper productSpecMapper
++ PageInfo<ProductSpec> findByPage(Integer,Integer)
++ void save(ProductSpec)
++ void updateById(ProductSpec)
++ void removeById(Long)
++ List<ProductSpec> findAll()
+}
+
+
+class com.spzx.manager.listener.ExcelListener {
+- CategoryMapper categoryMapper
+- {static} int BATCH_COUNT
+- List<T> cachedDataList
++ void invoke(T,AnalysisContext)
++ void doAfterAllAnalysed(AnalysisContext)
+- void saveData()
+}
+
+
+class com.spzx.model.entity.order.OrderInfo {
+- {static} long serialVersionUID
+- Long userId
+- String nickName
+- String orderNo
+- Long couponId
+- BigDecimal totalAmount
+- BigDecimal couponAmount
+- BigDecimal originalTotalAmount
+- BigDecimal feightFee
+- Integer payType
+- Integer orderStatus
+- String receiverName
+- String receiverPhone
+- String receiverTagName
+- String receiverProvince
+- String receiverCity
+- String receiverDistrict
+- String receiverAddress
+- Date paymentTime
+- Date deliveryTime
+- Date receiveTime
+- String remark
+- Date cancelTime
+- String cancelReason
+- List<OrderItem> orderItemList
+}
+
+class com.spzx.service.cart.CartApplication {
++ {static} void main(String[])
+}
+
+class com.spzx.manager.service.impl.ProductServiceImpl {
+~ ProductMapper productMapper
+~ ProductSkuMapper productSkuMapper
+~ ProductDetailsMapper productDetailsMapper
++ PageInfo<Product> findByPage(Integer,Integer,ProductDto)
++ void save(Product)
++ Product getById(Long)
++ void updateById(Product)
++ void deleteById(Long)
++ void updateAuditStatus(Long,Integer)
++ void updateStatus(Long,Integer)
+}
+
+
+class com.spzx.service.product.service.impl.BrandServiceImpl {
+~ BrandMapper brandMapper
++ List<Brand> findAll()
+}
+
+
+interface com.spzx.service.pay.mapper.AlipayMapper {
+}
+class com.spzx.utils.HttpUtils {
++ {static} HttpResponse doGet(String,String,String,Map<String,String>,Map<String,String>)
++ {static} HttpResponse doPost(String,String,String,Map<String,String>,Map<String,String>,Map<String,String>)
++ {static} HttpResponse doPost(String,String,String,Map<String,String>,Map<String,String>,String)
++ {static} HttpResponse doPost(String,String,String,Map<String,String>,Map<String,String>,byte[])
++ {static} HttpResponse doPut(String,String,String,Map<String,String>,Map<String,String>,String)
++ {static} HttpResponse doPut(String,String,String,Map<String,String>,Map<String,String>,byte[])
++ {static} HttpResponse doDelete(String,String,String,Map<String,String>,Map<String,String>)
+- {static} String buildUrl(String,String,Map<String,String>)
+- {static} HttpClient wrapClient(String)
+- {static} void sslClient(HttpClient)
+}
+
+interface com.spzx.service.user.service.SmsService {
+~ void sendValidateCode(String)
+}
+
+class com.spzx.service.product.service.impl.ProductServiceImpl {
+~ ProductSkuMapper productSkuMapper
+~ ProductMapper productMapper
+~ ProductDetailsMapper productDetailsMapper
++ List<ProductSku> findSkuListBySale()
++ PageInfo<ProductSku> findByPage(Integer,Integer,ProductSkuDto)
++ ProductItemVo getProductItemBySkuId(Long)
++ ProductSku getBySkuId(Long)
+}
+
+
+class com.spzx.model.entity.product.Product {
+- String name
+- Long brandId
+- Long category1Id
+- Long category2Id
+- Long category3Id
+- String unitName
+- String sliderUrls
+- String specValue
+- Integer status
+- Integer auditStatus
+- String auditMessage
+- String brandName
+- String category1Name
+- String category2Name
+- String category3Name
+- List<ProductSku> productSkuList
+- String detailsImageUrls
+}
+
+class com.spzx.model.entity.system.SysRoleUser {
+- Long roleId
+- Long userId
+}
+
+interface com.spzx.service.product.mapper.ProductMapper {
+~ Product getProductById(Long)
+}
+
+class com.spzx.service.user.controller.UserAddressController {
+~ UserAddressService userAddressService
++ Result findUserAddressList()
++ UserAddress getUserAddress(Long)
+}
+
+
+class com.spzx.manager.controller.ProductController {
+~ ProductService productService
++ Result findByPage(Integer,Integer,ProductDto)
++ Result save(Product)
++ Result getById(Long)
++ Result updateById(Product)
++ Result deleteById(Long)
++ Result updateAuditStatus(Long,Integer)
++ Result updateStatus(Long,Integer)
+}
+
+
+class com.spzx.model.dto.product.CategoryBrandDto {
+- Long brandId
+- Long categoryId
+}
+
+class com.spzx.manager.controller.CategoryBrandController {
+~ CategoryBrandService categoryBrandService
++ Result<PageInfo<CategoryBrand>> findByPage(Integer,Integer,CategoryBrandDto)
++ Result save(CategoryBrand)
++ Result updateById(CategoryBrand)
++ Result deleteById(Long)
++ Result findBrandByCategoryId(Long)
+}
+
+
+interface com.spzx.service.product.mapper.ProductSkuMapper {
+~ List<ProductSku> findByPage(ProductSkuDto)
+~ List<ProductSku> findSkuListBySale()
+~ ProductSku findProductSku(Long)
+~ List<ProductSku> findSkuListByPId(Long)
+}
+
+class com.spzx.service.product.controller.CategoryController {
+~ CategoryService categoryService
++ Result getAllCategory()
+}
+
+
+interface com.spzx.manager.mapper.CategoryBrandMapper {
+~ List<CategoryBrand> findByPage(CategoryBrandDto)
+~ void save(CategoryBrand)
+~ void updateById(CategoryBrand)
+~ void deleteById(Long)
+~ List<Brand> findBrandByCategoryId(Long)
+}
+
+class com.spzx.manager.service.impl.OrderInfoServiceImpl {
+~ OrderInfoMapper orderInfoMapper
+~ OrderStatisticsMapper orderStatisticsMapper
++ OrderStatisticsVo getOrderStatisticsData(OrderStatisticsDto)
+}
+
+
+class com.spzx.model.dto.h5.UserLoginDto {
+- String username
+- String password
+}
+
+class com.spzx.model.dto.system.AssginRoleDto {
+- Long userId
+- List<Long> roleIdList
+}
+
+class com.spzx.manager.service.impl.CategoryBrandServiceImpl {
+~ CategoryBrandMapper categoryBrandMapper
++ PageInfo<CategoryBrand> findByPage(Integer,Integer,CategoryBrandDto)
++ void save(CategoryBrand)
++ void updateById(CategoryBrand)
++ void deleteById(Long)
++ List<Brand> findBrandByCategoryId(Long)
+}
+
+
+class com.spzx.model.dto.order.OrderStatisticsDto {
+- String createTimeBegin
+- String createTimeEnd
+}
+
+class com.spzx.manager.controller.ProductSpecController {
+~ ProductSpecService productSpecService
++ Result<PageInfo<ProductSpec>> findByPage(Integer,Integer)
++ Result save(ProductSpec)
++ Result updateById(ProductSpec)
++ Result removeById(Long)
++ Result findAll()
+}
+
+
+interface com.spzx.manager.mapper.SysUserMapper {
+~ SysUser selectUserInfoByUserName(String)
+~ List<SysUser> findByPage(SysUserDto)
+~ void saveSysUser(SysUser)
+~ void updateSysUser(SysUser)
+~ void deleteById(Long)
+}
+
+class com.spzx.manager.controller.SysUserController {
+~ SysUserService sysUserService
++ Result findByPage(Integer,Integer,SysUserDto)
++ Result saveSysUser(SysUser)
++ Result updateSysUser(SysUser)
++ Result deleteById(Long)
++ Result doAssign(AssginRoleDto)
+}
+
+
+interface com.spzx.service.product.service.CategoryService {
+~ List<Category> findListOne()
+~ List<Category> findCategoryTree()
+}
+
+interface com.spzx.service.product.service.ProductService {
+~ List<ProductSku> findSkuListBySale()
+~ PageInfo<ProductSku> findByPage(Integer,Integer,ProductSkuDto)
+~ ProductItemVo getProductItemBySkuId(Long)
+~ ProductSku getBySkuId(Long)
+}
+
+class com.spzx.manager.properties.UserProperties {
+- List<String> noAuthUrls
+}
+
+interface com.spzx.service.user.mapper.UserAddressMapper {
+~ List<UserAddress> findUserAddressList(Long)
+~ UserAddress getUserAddress(Long)
+}
+
+class com.spzx.manager.ManagerApplication {
++ {static} void main(String[])
+}
+
+interface com.spzx.manager.service.SysMenuService {
+~ List<SysMenu> findNodes()
+~ void save(SysMenu)
+~ void updateById(SysMenu)
+~ void removeById(Long)
+~ List<SysMenuVo> findUserMenuList()
+}
+
+class com.spzx.model.vo.h5.IndexVo {
+- List<Category> categoryList
+- List<ProductSku> productSkuList
+}
+
+interface com.spzx.manager.service.FileUploadService {
+~ String upload(MultipartFile)
+}
+
+class com.spzx.gateway.filter.AuthGlobalFilter {
+- RedisTemplate<String,String> redisTemplate
+- AntPathMatcher antPathMatcher
++ Mono<Void> filter(ServerWebExchange,GatewayFilterChain)
++ int getOrder()
+- Mono<Void> out(ServerHttpResponse,ResultCodeEnum)
+- UserInfo getUserInfo(ServerHttpRequest)
+}
+
+
+class com.spzx.model.entity.product.Category {
+- String name
+- String imageUrl
+- Long parentId
+- Integer status
+- Integer orderNum
+- Boolean hasChildren
+- List<Category> children
+}
+
+class com.spzx.service.order.service.impl.OrderInfoServiceImpl {
+~ CartFeignClient cartFeignClient
+~ ProductFeignClient productFeignClient
+~ UserFeignClient userFeignClient
+~ OrderInfoMapper orderInfoMapper
+~ OrderItemMapper orderItemMapper
+~ OrderLogMapper orderLogMapper
++ TradeVo trade()
++ Long submitOrder(OrderInfoDto)
++ OrderInfo getOrderInfo(Long)
++ TradeVo buy(Long)
++ PageInfo<OrderInfo> list(Integer,Integer,Integer)
++ OrderInfo getOrderInfoByOrderNo(String)
+}
+
+
+interface com.spzx.feign.product.ProductFeignClient {
++ {abstract}ProductSku getBySkuId(Long)
+}
+
+interface com.spzx.manager.service.ProductSpecService {
+~ PageInfo<ProductSpec> findByPage(Integer,Integer)
+~ void save(ProductSpec)
+~ void updateById(ProductSpec)
+~ void removeById(Long)
+~ List<ProductSpec> findAll()
+}
+
+class com.spzx.manager.controller.FileUploadController {
+- FileUploadService fileUploadService
++ Result fileUpload(MultipartFile)
+}
+
+
+class com.spzx.service.product.controller.ProductController {
+- ProductService productService
++ Result<PageInfo<ProductSku>> findByPage(Integer,Integer,ProductSkuDto)
++ Result getProductItemBySkuId(Long)
++ ProductSku getBySkuId(Long)
+}
+
+
+class com.spzx.service.pay.service.impl.PaymentInfoServiceImpl {
+~ PaymentInfoMapper paymentInfoMapper
+~ OrderFeignClient orderFeignClient
++ PaymentInfo savePaymentInfo(String)
+}
+
+
+class com.spzx.manager.service.impl.CategoryServiceImpl {
+~ CategoryMapper categoryMapper
++ List<Category> findCategoryList(Long)
++ void exportData(HttpServletResponse)
++ void importData(MultipartFile)
+}
+
+
+class com.spzx.gateway.GatewayApplication {
++ {static} void main(String[])
+}
+
+class com.spzx.manager.properties.MinioProperties {
+- String endpointUrl
+- String accessKey
+- String secretKey
+- String bucketName
+}
+
+class com.spzx.model.entity.order.OrderStatistics {
+- Date orderDate
+- BigDecimal totalAmount
+- Integer totalNum
+}
+
+class com.spzx.model.vo.h5.TradeVo {
+- BigDecimal totalAmount
+- List<OrderItem> orderItemList
+}
+
+class com.spzx.model.dto.system.SysUserDto {
+- String keyword
+- String createTimeBegin
+- String createTimeEnd
+}
+
+interface com.spzx.feign.user.UserFeignClient {
++ {abstract}UserAddress getUserAddress(Long)
+}
+
+class com.spzx.model.dto.system.AssginMenuDto {
+- Long roleId
+- List<Map<String,Number>> menuIdList
+}
+
+class com.spzx.common.config.UserWebMvcConfiguration {
+- UserLoginAuthInterceptor userLoginAuthInterceptor
++ void addInterceptors(InterceptorRegistry)
+}
+
+
+interface com.spzx.manager.mapper.ProductSpecMapper {
++ List<ProductSpec> findByPage()
+~ void save(ProductSpec)
+~ void updateById(ProductSpec)
+~ void removeById(Long)
+~ List<ProductSpec> findAll()
+}
+
+class com.spzx.service.pay.config.AlipayConfiguration {
+~ AlipayProperties alipayProperties
++ AlipayClient alipayClient()
+}
+
+
+interface com.spzx.service.product.mapper.CategoryMapper {
+~ List<Category> findListOne()
+~ List<Category> findCategoryAll()
+}
+
+interface com.spzx.manager.service.SysUserService {
+~ LoginVo login(LoginDto)
+~ SysUser getUserInfo(String)
+~ void logout(String)
+~ PageInfo<SysUser> findByPage(Integer,Integer,SysUserDto)
+~ void saveSysUser(SysUser)
+~ void updateSysUser(SysUser)
+~ void deleteById(Long)
+~ void doAssign(AssginRoleDto)
+}
+
+interface com.spzx.service.user.service.UserInfoService {
+~ void register(UserRegisterDto)
+~ String login(UserLoginDto)
+~ UserInfoVo getCurrentUserInfo(String)
+}
+
+interface com.spzx.manager.service.ValidateCodeService {
+~ ValidateCodeVo generateValidateCode()
+}
+
+interface com.spzx.manager.mapper.SysRoleMapper {
+~ List<SysRole> findByPage(SysRoleDto)
+~ void saveSysRole(SysRole)
+~ void updateSysRole(SysRole)
+~ void deleteById(Long)
+~ List<SysRole> findAllRoles()
+}
+
+class com.spzx.model.entity.user.UserAddress {
+- {static} long serialVersionUID
+- Long userId
+- String name
+- String phone
+- String tagName
+- String provinceCode
+- String cityCode
+- String districtCode
+- String address
+- String fullAddress
+- Integer isDefault
+}
+
+class com.spzx.manager.service.impl.ValidateCodeServiceImpl {
+- RedisTemplate<String,String> redisTemplate
++ ValidateCodeVo generateValidateCode()
+}
+
+
+class com.spzx.common.interceptors.UserLoginAuthInterceptor {
+~ RedisTemplate<String,String> redisTemplate
++ boolean preHandle(HttpServletRequest,HttpServletResponse,Object)
++ void afterCompletion(HttpServletRequest,HttpServletResponse,Object,Exception)
+}
+
+
+interface com.spzx.manager.service.SysRoleService {
+~ PageInfo<SysRole> findByPage(SysRoleDto,Integer,Integer)
+~ void saveSysRole(SysRole)
+~ void updateSysRole(SysRole)
+~ void deleteById(Long)
+~ Map<String,Object> findAllRoles(Long)
+}
+
+interface com.spzx.manager.mapper.SysUserRoleMapper {
++ void delete(Long)
+~ void doAssign(Long,Long)
+~ List<Long> findSysUserRoleByUserId(Long)
+}
+
+class com.spzx.manager.utils.BuildMenuTreeUtil {
++ {static} List<SysMenu> buildTree(List<SysMenu>,Long)
+}
+
+class com.spzx.common.config.Knife4jConfig {
++ GroupedOpenApi adminApi()
++ OpenAPI customOpenAPI()
+}
+
+class com.spzx.service.product.service.impl.CategoryServiceImpl {
+~ CategoryMapper categoryMapper
+~ RedisTemplate<String,String> redisTemplate
++ List<Category> findListOne()
++ List<Category> findCategoryTree()
+}
+
+
+class com.spzx.model.vo.system.SysMenuVo {
+- String title
+- String name
+- List<SysMenuVo> children
+}
+
+interface com.spzx.common.log.service.AsyncOperLogService {
++ {abstract}void saveSysOperLog(SysOperLog)
+}
+
+class com.spzx.manager.service.impl.ProductSkuServiceImpl {
+}
+class com.spzx.manager.controller.SysRoleController {
+~ SysRoleService sysRoleService
++ Result findByPage(Integer,Integer,SysRoleDto)
++ Result saveSysRole(SysRole)
++ Result updateSysRole(SysRole)
++ Result deleteById(Long)
++ Result<Map<String,Object>> findAllRoles(Long)
+}
+
+
+class com.spzx.model.vo.system.ValidateCodeVo {
+- String codeKey
+- String codeValue
+}
+
+interface com.spzx.manager.service.BrandService {
+~ PageInfo<Brand> findBrandPage(Integer,Integer)
+~ void save(Brand)
+~ void updateById(Brand)
+~ void deleteById(Long)
+~ List<Brand> findAll()
+}
+
+class com.spzx.service.cart.controller.CartController {
+~ CartService cartService
++ Result addToCart(Long,Integer)
++ Result<List<CartInfo>> cartList()
++ Result deleteCart(Long)
++ Result checkCart(Long,Integer)
++ Result allCheckCart(Integer)
++ Result clearCart()
++ List<CartInfo> getAllChecked()
++ Result deleteChecked()
+}
+
+
+interface com.spzx.service.order.service.OrderInfoService {
+~ TradeVo trade()
+~ Long submitOrder(OrderInfoDto)
+~ OrderInfo getOrderInfo(Long)
+~ TradeVo buy(Long)
+~ PageInfo<OrderInfo> list(Integer,Integer,Integer)
+~ OrderInfo getOrderInfoByOrderNo(String)
+}
+
+interface com.spzx.manager.mapper.ProductSkuMapper {
+~ void save(ProductSku)
+~ List<ProductSku> findProductSkuById(Long)
+~ void updateById(ProductSku)
+~ void deleteByProductId(Long)
+}
+
+interface com.spzx.manager.mapper.SysMenuMapper {
+~ List<SysMenu> findNodes()
+~ void addMenu(SysMenu)
+~ void updateById(SysMenu)
+~ void removeById(Long)
+~ int countByParentId(Long)
+}
+
+class com.spzx.service.user.service.impl.UserAddressServiceImpl {
+~ UserAddressMapper userAddressMapper
++ List<UserAddress> findUserAddressList()
++ UserAddress getUserAddress(Long)
+}
+
+
+class com.spzx.service.user.controller.UserInfoController {
+~ UserInfoService userInfoService
++ Result register(UserRegisterDto)
++ Result login(UserLoginDto)
++ Result getCurrentUserInfo(HttpServletRequest)
+}
+
+
+interface com.spzx.manager.service.ProductSkuService {
+}
+class com.spzx.manager.service.impl.SysRoleServiceImpl {
+~ SysRoleMapper sysRoleMapper
+~ SysUserRoleMapper sysUserRoleMapper
++ PageInfo<SysRole> findByPage(SysRoleDto,Integer,Integer)
++ void saveSysRole(SysRole)
++ void updateSysRole(SysRole)
++ void deleteById(Long)
++ Map<String,Object> findAllRoles(Long)
+}
+
+
+class com.spzx.manager.controller.SysRoleMenuController {
+~ SysRoleMenuService sysRoleMenuService
++ Result findSysRoleMenuByRoleId(Long)
++ Result doAssign(AssginMenuDto)
+}
+
+
+interface com.spzx.service.product.mapper.ProductDetailsMapper {
+~ ProductDetails findProductDetailsById(Long)
+}
+
+class com.spzx.model.dto.h5.OrderInfoDto {
+- Long userAddressId
+- BigDecimal feightFee
+- String remark
+- List<OrderItem> orderItemList
+}
+
+class com.spzx.model.dto.h5.UserRegisterDto {
+- String username
+- String password
+- String nickName
+- String code
+}
+
+class com.spzx.manager.task.OrderStatisticsTask {
+~ OrderInfoMapper orderInfoMapper
+~ OrderStatisticsMapper orderStatisticsMapper
++ void orderTotalAmountStatistics()
+}
+
+
+class com.spzx.model.dto.product.SkuSaleDto {
+- Long skuId
+- Integer num
+}
+
+class com.spzx.service.pay.service.impl.AlipayServiceImpl {
+~ AlipayMapper alipayMapper
+~ PaymentInfoService paymentInfoService
+~ AlipayProperties alipayProperties
+~ AlipayClient alipayClient
++ String submitAlipay(String)
+}
+
+
+interface com.spzx.manager.mapper.SysOperLogMapper {
+~ void insert(SysOperLog)
+}
+
+interface com.spzx.manager.service.SysRoleMenuService {
+~ Map<String,Object> findSysRoleMenuByRoleId(Long)
+~ void doAssign(AssginMenuDto)
+}
+
+interface com.spzx.manager.mapper.OrderStatisticsMapper {
+~ void insert(OrderStatistics)
+~ List<OrderStatistics> selectList(OrderStatisticsDto)
+}
+
+class com.spzx.manager.service.impl.ProductUnitServiceImpl {
+~ ProductUnitMapper productUnitMapper
++ List<ProductUnit> findAll()
+}
+
+
+class com.spzx.model.entity.product.ProductSpec {
+- String specName
+- String specValue
+}
+
+class com.spzx.service.user.service.impl.UserInfoServiceImpl {
+~ UserInfoMapper userInfoMapper
+~ RedisTemplate<String,String> redisTemplate
++ void register(UserRegisterDto)
++ String login(UserLoginDto)
++ UserInfoVo getCurrentUserInfo(String)
+}
+
+
+interface com.spzx.manager.mapper.ProductMapper {
+~ List<Product> findByPage(ProductDto)
+~ void save(Product)
+~ Product findProductById(Long)
+~ void updateById(Product)
+~ void deleteById(Long)
+}
+
+class com.spzx.model.entity.h5.CartInfo {
+- {static} long serialVersionUID
+- Long userId
+- Long skuId
+- BigDecimal cartPrice
+- Integer skuNum
+- String imgUrl
+- String skuName
+- Integer isChecked
+}
+
+class com.spzx.common.log.utils.LogUtil {
++ {static} void afterHandlLog(Log,ProceedingJoinPoint,SysOperLog,int,String)
++ {static} void beforeHandleLog(Log,ProceedingJoinPoint,SysOperLog)
+}
+
+class com.spzx.common.log.utils.ProceedingJoinPointInfo {
+- String methodName
+- Object[] args
+}
+
+interface com.spzx.feign.cart.CartFeignClient {
++ {abstract}List<CartInfo> getAllChecked()
++ {abstract}Result deleteChecked()
+}
+
+class com.spzx.manager.controller.CategoryController {
+~ CategoryService categoryService
++ Result findByParentId(Long)
++ void exportData(HttpServletResponse)
++ Result importData(MultipartFile)
+}
+
+
+class com.spzx.model.entity.base.ProductUnit {
+- String name
+}
+
+class com.spzx.common.interceptors.UserTokenFeignInterceptor {
++ void apply(RequestTemplate)
+}
+
+class com.spzx.service.order.OrderApplication {
++ {static} void main(String[])
+}
+
+class com.spzx.model.entity.user.UserInfo {
+- {static} long serialVersionUID
+- String username
+- String password
+- String nickName
+- String avatar
+- Integer sex
+- String phone
+- String memo
+- String openId
+- String unionId
+- String lastLoginIp
+- Date lastLoginTime
+- Integer status
+}
+
+interface com.spzx.service.order.mapper.OrderItemMapper {
+~ void save(OrderItem)
+~ List<OrderItem> findByOrderId(Long)
+}
+
+class com.spzx.manager.controller.IndexController {
+~ SysUserService sysUserService
+- ValidateCodeService validateCodeService
+~ SysMenuService sysMenuService
++ Result getUserInfo(String)
++ Result<ValidateCodeVo> generateValidateCode()
++ Result<LoginVo> login(LoginDto)
++ Result logout(String)
++ Result menus()
+}
+
+
+class com.spzx.service.user.service.impl.SmsServiceImpl {
+~ RedisTemplate<String,String> redisTemplate
++ void sendValidateCode(String)
++ void sendMessage(String,String)
+}
+
+
+class com.spzx.service.user.controller.SmsController {
+~ SmsService smsService
++ Result sendValidateCode(String)
+}
+
+
+interface com.spzx.feign.order.OrderFeignClient {
++ Result<OrderInfo> getOrderInfoByOrderNo(String)
+}
+
+interface com.spzx.service.user.service.UserAddressService {
+~ List<UserAddress> findUserAddressList()
+~ UserAddress getUserAddress(Long)
+}
+
+
+
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.order.OrderLog
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.order.OrderItem
+com.spzx.manager.service.FileUploadService <|.. com.spzx.manager.service.impl.FileUploadServiceImpl
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.pay.PaymentInfo
+com.spzx.manager.service.SysUserService <|.. com.spzx.manager.service.impl.SysUserServiceImpl
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.system.SysMenu
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.base.Region
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.product.ProductDetails
+com.spzx.manager.service.SysRoleMenuService <|.. com.spzx.manager.service.impl.SysRoleMenuServiceImpl
+com.spzx.manager.service.BrandService <|.. com.spzx.manager.service.impl.BrandServiceImpl
+com.spzx.service.cart.service.CartService <|.. com.spzx.service.cart.service.impl.CartServiceImpl
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.product.CategoryBrand
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.system.SysRole
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.product.ProductSku
+java.io.Serializable <|.. com.spzx.model.entity.base.BaseEntity
+org.springframework.web.servlet.HandlerInterceptor <|.. com.spzx.manager.interceptors.LoginAuthInterceptor
+org.springframework.web.servlet.config.annotation.WebMvcConfigurer <|.. com.spzx.manager.config.WebMvcConfiguration
+com.spzx.manager.service.SysMenuService <|.. com.spzx.manager.service.impl.SysMenuServiceImpl
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.dto.product.ProductDto
+com.spzx.common.exception.RuntimeException <|-- com.spzx.common.exception.GlobalException
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.system.SysUser
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.system.SysOperLog
+com.spzx.common.log.service.AsyncOperLogService <|.. com.spzx.manager.service.impl.AsyncOperLogServiceImpl
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.product.Brand
+com.spzx.manager.service.ProductDetailsService <|.. com.spzx.manager.service.impl.ProductDetailsServiceImpl
+com.spzx.manager.service.ProductSpecService <|.. com.spzx.manager.service.impl.ProductSpecServiceImpl
+com.alibaba.excel.read.listener.ReadListener <|.. com.spzx.manager.listener.ExcelListener
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.order.OrderInfo
+com.spzx.manager.service.ProductService <|.. com.spzx.manager.service.impl.ProductServiceImpl
+com.spzx.service.product.service.BrandService <|.. com.spzx.service.product.service.impl.BrandServiceImpl
+com.spzx.service.product.service.ProductService <|.. com.spzx.service.product.service.impl.ProductServiceImpl
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.product.Product
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.system.SysRoleUser
+com.spzx.manager.service.OrderInfoService <|.. com.spzx.manager.service.impl.OrderInfoServiceImpl
+com.spzx.manager.service.CategoryBrandService <|.. com.spzx.manager.service.impl.CategoryBrandServiceImpl
+org.springframework.cloud.gateway.filter.GlobalFilter <|.. com.spzx.gateway.filter.AuthGlobalFilter
+org.springframework.core.Ordered <|.. com.spzx.gateway.filter.AuthGlobalFilter
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.product.Category
+com.spzx.service.order.service.OrderInfoService <|.. com.spzx.service.order.service.impl.OrderInfoServiceImpl
+com.spzx.service.pay.service.PaymentInfoService <|.. com.spzx.service.pay.service.impl.PaymentInfoServiceImpl
+com.spzx.manager.service.CategoryService <|.. com.spzx.manager.service.impl.CategoryServiceImpl
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.order.OrderStatistics
+org.springframework.web.servlet.config.annotation.WebMvcConfigurer <|.. com.spzx.common.config.UserWebMvcConfiguration
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.user.UserAddress
+com.spzx.manager.service.ValidateCodeService <|.. com.spzx.manager.service.impl.ValidateCodeServiceImpl
+org.springframework.web.servlet.HandlerInterceptor <|.. com.spzx.common.interceptors.UserLoginAuthInterceptor
+com.spzx.service.product.service.CategoryService <|.. com.spzx.service.product.service.impl.CategoryServiceImpl
+com.spzx.manager.service.ProductSkuService <|.. com.spzx.manager.service.impl.ProductSkuServiceImpl
+com.spzx.service.user.service.UserAddressService <|.. com.spzx.service.user.service.impl.UserAddressServiceImpl
+com.spzx.manager.service.SysRoleService <|.. com.spzx.manager.service.impl.SysRoleServiceImpl
+com.spzx.service.pay.service.AlipayService <|.. com.spzx.service.pay.service.impl.AlipayServiceImpl
+com.spzx.manager.service.ProductUnitService <|.. com.spzx.manager.service.impl.ProductUnitServiceImpl
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.product.ProductSpec
+com.spzx.service.user.service.UserInfoService <|.. com.spzx.service.user.service.impl.UserInfoServiceImpl
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.h5.CartInfo
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.base.ProductUnit
+feign.RequestInterceptor <|.. com.spzx.common.interceptors.UserTokenFeignInterceptor
+com.spzx.model.entity.base.BaseEntity <|-- com.spzx.model.entity.user.UserInfo
+com.spzx.service.user.service.SmsService <|.. com.spzx.service.user.service.impl.SmsServiceImpl
+@enduml
