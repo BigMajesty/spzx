@@ -1,4 +1,4 @@
-[toc]
+
 
 # 声明
 
@@ -273,21 +273,21 @@
 >	```java
 >	@Component
 >	public class WebMvcConfiguration implements WebMvcConfigurer {
->				
+>					
 >	    @Autowired
 >	    LoginAuthInterceptor loginAuthInterceptor;
->				
+>					
 >	    //注入不拦截的路径信息
 >	    @Autowired
 >	    UserProperties userProperties;
->				
+>					
 >	    @Override
 >	    public void addInterceptors(InterceptorRegistry registry) {
 >	        registry.addInterceptor(loginAuthInterceptor)
 >	                .excludePathPatterns(userProperties.getNoAuthUrls())
 >	                .addPathPatterns("/**");
 >	    }
->				
+>					
 >	    //跨域解决
 >	    @Override
 >	    public void addCorsMappings(CorsRegistry registry) {
@@ -543,20 +543,20 @@
 >		@Target({ElementType.METHOD})//表示可以用在什么地方：方法
 >		@Retention(RetentionPolicy.RUNTIME)//用在什么时期
 >		public @interface Log {     //自定义操作日志注解
->								
+>										
 >		    public String title() ;								// 模块名称
 >		    public OperatorType operatorType() default OperatorType.MANAGE;	// 操作人类别
 >		    public int businessType() ;     // 业务类型（0其它 1新增 2修改 3删除）
 >		    public boolean isSaveRequestData() default true;   // 是否保存请求的参数
 >		    public boolean isSaveResponseData() default true;  // 是否保存响应的参数
 >		}
->								
+>										
 >		```
 >
 >
 >
 >	- 切面类环绕通知方法
->				
+>					
 >		```
 >		@Aspect
 >		@Component
@@ -569,15 +569,15 @@
 >		    }
 >		}
 >		```
->				
+>					
 >	- 自定义注解，然后添加到启动类，让spring可以扫描到
->				
+>					
 >		```
 >		@Target({ElementType.TYPE})
 >		@Retention(RetentionPolicy.RUNTIME)
 >		@Import(value = Aspect.class)            // 通过Import注解导入日志切面类到Spring容器中
 >		public @interface EnableLogAspect {
->				
+>					
 >		}
 >		```
 >
@@ -602,7 +602,7 @@
 >	public class ProceedingJoinPointInfo {
 >	    private String methodName;
 >	    private Object[] args;
->				
+>					
 >	    // getter and setter methods...
 >	}
 >	```
@@ -768,7 +768,7 @@
 >	```
 >	    //查询商品详情
 >	    ProductDetails findProductDetailsById(Long productId);
->				
+>					
 >	```
 >
 >
